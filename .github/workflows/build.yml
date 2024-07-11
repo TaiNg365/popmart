@@ -24,22 +24,15 @@ jobs:
         with:
           python-version: '3.9'
 
-      - name: Install dependencies on Ubuntu
-        if: runner.os == 'Linux'
+      - name: Install dependencies (Ubuntu and macOS)
+        if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
         run: |
           python -m pip install --upgrade pip
           pip install pyinstaller
           pip install -r requirements.txt
 
-      - name: Install dependencies on macOS
-        if: runner.os == 'macOS'
-        run: |
-          python -m pip install --upgrade pip
-          pip install pyinstaller
-          pip install -r requirements.txt
-
-      - name: Install dependencies on Windows
-        if: runner.os == 'Windows'
+      - name: Install dependencies (Windows)
+        if: matrix.os == 'windows-latest'
         run: |
           python -m pip install --upgrade pip
           pip install pyinstaller
@@ -49,10 +42,10 @@ jobs:
       - name: List all files and their paths
         run: find . -type f
 
-      - name: Debug: Show current directory
+      - name: Show current directory
         run: pwd
 
-      - name: Debug: List files in current directory
+      - name: List files in current directory
         run: ls -al
 
       - name: Verify gui.spec exists
@@ -60,15 +53,15 @@ jobs:
           if [ -f gui.spec ]; then echo "gui.spec found"; else echo "gui.spec not found"; fi
 
       - name: Build executable on Ubuntu
-        if: runner.os == 'Linux'
+        if: matrix.os == 'ubuntu-latest'
         run: pyinstaller gui.spec
 
       - name: Build executable on macOS
-        if: runner.os == 'macOS'
+        if: matrix.os == 'macos-latest'
         run: pyinstaller gui.spec
 
       - name: Build executable on Windows
-        if: runner.os == 'Windows'
+        if: matrix.os == 'windows-latest'
         run: pyinstaller gui.spec
 
       - name: Archive production artifacts
