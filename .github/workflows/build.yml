@@ -49,11 +49,15 @@ jobs:
       - name: List all files and their paths
         run: find . -type f
 
-      - name: Debug Show current directory
+      - name: Debug: Show current directory
         run: pwd
 
-      - name: Debug List files in current directory
+      - name: Debug: List files in current directory
         run: ls -al
+
+      - name: Verify gui.spec exists
+        run: |
+          if [ -f gui.spec ]; then echo "gui.spec found"; else echo "gui.spec not found"; fi
 
       - name: Build executable on Ubuntu
         if: runner.os == 'Linux'
