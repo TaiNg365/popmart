@@ -1,46 +1,46 @@
-name: Build Executables
+name: Build and Package
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   build:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-        include:
-          - os: ubuntu-latest
-            chromedriver: 'chromedriver'
-          - os: macos-latest
-            chromedriver: 'chromedriver'
-          - os: windows-latest
-            chromedriver: 'chromedriver.exe'
-
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.9
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install pyinstaller
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
 
-      - name: Download ChromeDriver
-        run: |
-          wget https://chromedriver.storage.googleapis.com/91.0.4472.19/${{ matrix.chromedriver }} -O chromedriver
-          chmod +x chromedriver
+    - name: Set up Chrome WebDriver
+      if: matrix.os == 'ubuntu-latest'
+      run: sudo apt-get install chromium-chromedriver
 
-      - name: Build executable
-        run: |
-          pyinstaller --onefile gui.py
-      
-      - name: Upload artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: popmart-${{ matrix.os }}
-          path: dist/popmart*
+    - name: Set up Chrome WebDriver
+      if: matrix.os == 'windows-latest'
+      run: choco install chromedriver
+
+    - name: Set up Chrome WebDriver
+      if: matrix.os == 'macos-latest'
+      run: brew install chromedriver
+
+    - name: Build executable with PyInstaller
+      run: |
+        pyinstaller --onefile --windowed gui.spec
+
+    - name: Archive Artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: build-artifacts
+        path: dist/

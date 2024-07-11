@@ -4,7 +4,7 @@ from tkinter import messagebox, scrolledtext
 import threading
 import ctypes
 import platform
-from main import check_product
+from main_v2 import check_product
 
 stop_event = threading.Event()
 stop_events = []
