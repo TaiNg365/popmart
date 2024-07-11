@@ -27,7 +27,7 @@ The Popmart Auto Checkout Bot is designed to automate the process of purchasing 
 1. **Clone the Repository:**
 
    ```sh
-   git clone https://github.com/yourusername/popmart-auto-checkout.git
+   git clone https://github.com/TaiNg365/popmart.git
    cd popmart-auto-checkout
    ```
 
