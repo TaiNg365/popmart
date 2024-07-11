@@ -46,15 +46,16 @@ jobs:
           pip install -r requirements.txt
           pip install pywin32==306
 
+      - name: List files in the directory
+        run: ls -la
+
       - name: Build executable on Ubuntu
         if: runner.os == 'Linux'
         run: pyinstaller gui.spec
 
       - name: Build executable on macOS
         if: runner.os == 'macOS'
-        run: |
-          cp gui.spec gui_macos.spec
-          pyinstaller gui_macos.spec
+        run: pyinstaller gui.spec
 
       - name: Build executable on Windows
         if: runner.os == 'Windows'
