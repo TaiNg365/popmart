@@ -49,6 +49,12 @@ jobs:
       - name: List all files and their paths
         run: find . -type f
 
+      - name: Debug: Show current directory
+        run: pwd
+
+      - name: Debug: List files in current directory
+        run: ls -al
+
       - name: Build executable on Ubuntu
         if: runner.os == 'Linux'
         run: pyinstaller gui.spec
