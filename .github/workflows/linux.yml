@@ -1,0 +1,49 @@
+name: Build and Create AppImage for Linux
+
+on: [push, pull_request]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.9'
+
+    - name: Install dependencies
+      run: |
+        python -m venv venv
+        source venv/bin/activate
+        pip install -r requirements.txt
+
+    - name: Install PyInstaller
+      run: |
+        source venv/bin/activate
+        pip install pyinstaller
+
+    - name: Build executable
+      run: |
+        source venv/bin/activate
+        pyinstaller --onefile --windowed --name popmart gui.spec
+
+    - name: Install AppImage tool
+      run: |
+        sudo apt-get install -y appimagetool
+
+    - name: Create AppImage
+      run: |
+        mkdir -p PopmartBot.AppDir/usr/bin
+        cp dist/popmart PopmartBot.AppDir/usr/bin/
+        appimagetool PopmartBot.AppDir
+
+    - name: Archive AppImage
+      uses: actions/upload-artifact@v2
+      with:
+        name: linux-appimage
+        path: PopmartBot-*.AppImage
