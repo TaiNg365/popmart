@@ -47,8 +47,7 @@ jobs:
           pip install pywin32==306
 
       - name: Build executable
-        run: |
-          pyinstaller --onefile --name popmart --icon labubuicon.ico gui.spec
+        run: pyinstaller gui.spec
 
       - name: Archive production artifacts
         uses: actions/upload-artifact@v2
