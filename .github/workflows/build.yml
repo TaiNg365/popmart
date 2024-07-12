@@ -46,12 +46,8 @@ jobs:
           pip install -r requirements.txt
           pip install pywin32==306
 
-      - name: List all files and their paths on Ubuntu
-        if: runner.os == 'Linux'
-        run: find . -type f
-
-      - name: List all files and their paths on macOS
-        if: runner.os == 'macOS'
+      - name: List all files and their paths on Ubuntu and macOS
+        if: runner.os != 'Windows'
         run: find . -type f
 
       - name: List all files and their paths on Windows
@@ -61,20 +57,17 @@ jobs:
       - name: Build executable on Ubuntu
         if: runner.os == 'Linux'
         run: |
-          pyinstaller --clean --log-level=DEBUG gui.spec > pyinstaller-ubuntu.log 2>&1
-          cat pyinstaller-ubuntu.log
+          pyinstaller gui.spec
 
       - name: Build executable on macOS
         if: runner.os == 'macOS'
         run: |
-          pyinstaller --clean --log-level=DEBUG gui.spec > pyinstaller-macos.log 2>&1
-          cat pyinstaller-macos.log
+          pyinstaller gui.spec
 
       - name: Build executable on Windows
         if: runner.os == 'Windows'
         run: |
-          pyinstaller --clean --log-level=DEBUG gui.spec > pyinstaller-windows.log 2>&1
-          type pyinstaller-windows.log
+          pyinstaller gui.spec
 
       - name: Archive production artifacts
         uses: actions/upload-artifact@v2
