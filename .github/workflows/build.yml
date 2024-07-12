@@ -52,7 +52,7 @@ jobs:
 
       - name: List all files and their paths on Windows
         if: runner.os == 'Windows'
-        run: dir /s /b
+        run: Get-ChildItem -Recurse | ForEach-Object { $_.FullName }
 
       - name: Build executable on Ubuntu
         if: runner.os == 'Linux'
