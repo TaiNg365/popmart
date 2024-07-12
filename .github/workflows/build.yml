@@ -46,8 +46,17 @@ jobs:
           pip install -r requirements.txt
           pip install pywin32==306
 
-      - name: List all files and their paths
+      - name: List all files and their paths on Ubuntu
+        if: runner.os == 'Linux'
         run: find . -type f
+
+      - name: List all files and their paths on macOS
+        if: runner.os == 'macOS'
+        run: find . -type f
+
+      - name: List all files and their paths on Windows
+        if: runner.os == 'Windows'
+        run: dir /s /b
 
       - name: Build executable on Ubuntu
         if: runner.os == 'Linux'
