@@ -49,12 +49,6 @@ jobs:
       - name: List all files and their paths
         run: find . -type f
 
-      - name: Debug Show current directory
-        run: pwd
-
-      - name: Debug List files in current directory
-        run: ls -al
-
       - name: Build executable on Ubuntu
         if: runner.os == 'Linux'
         run: pyinstaller gui.spec
@@ -72,3 +66,7 @@ jobs:
         with:
           name: build-artifacts-${{ matrix.os }}
           path: dist/
+
+      - name: Print macOS build logs
+        if: runner.os == 'macOS'
+        run: cat /Users/runner/work/_temp/_github_home/pyinstaller-macos.log
