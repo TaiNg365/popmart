@@ -1,6 +1,5 @@
 dist/
 build/
-*.spec
 __pycache__/
 .idea/
 .vscode/
@@ -9,3 +8,13 @@ main_v2.py
 gui_v1.py
 Popmartcheckoutbot.ipynb
 checkout_bot_v1.spec
+gui_v2.py
+gui_v3.py
+gui_v4.py
+gui_v4.py
+gui_v5.py
+labubuicon_v1.ico
+main_v1.py
+main_v2.py
+main_v3.py
+main_v4.py
