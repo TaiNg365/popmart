@@ -51,22 +51,24 @@ jobs:
 
       - name: Build executable on Ubuntu
         if: runner.os == 'Linux'
-        run: pyinstaller gui.spec
+        run: |
+          pyinstaller --clean --log-level=DEBUG gui.spec > pyinstaller-ubuntu.log 2>&1
+          cat pyinstaller-ubuntu.log
 
       - name: Build executable on macOS
         if: runner.os == 'macOS'
-        run: pyinstaller gui.spec
+        run: |
+          pyinstaller --clean --log-level=DEBUG gui.spec > pyinstaller-macos.log 2>&1
+          cat pyinstaller-macos.log
 
       - name: Build executable on Windows
         if: runner.os == 'Windows'
-        run: pyinstaller gui.spec
+        run: |
+          pyinstaller --clean --log-level=DEBUG gui.spec > pyinstaller-windows.log 2>&1
+          type pyinstaller-windows.log
 
       - name: Archive production artifacts
         uses: actions/upload-artifact@v2
         with:
           name: build-artifacts-${{ matrix.os }}
           path: dist/
-
-      - name: Print macOS build logs
-        if: runner.os == 'macOS'
-        run: cat /Users/runner/work/_temp/_github_home/pyinstaller-macos.log
