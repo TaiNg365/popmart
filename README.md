@@ -1,111 +1,107 @@
 
-# Popmart Auto Checkout Bot
+# Popmart Checkout Bot
 
-## Purpose
-
-The Popmart Auto Checkout Bot is designed to automate the process of purchasing products from the Popmart website. The primary goal is to help users secure products during new launches or restocks, which can occur at random times. This bot ensures that the desired products are added to the cart and purchased as soon as they become available, saving users the hassle of constantly monitoring the website.
+This project is a checkout bot for Popmart products. It allows users to automatically add products to their cart and proceed to checkout using a graphical user interface (GUI).
 
 ## Features
 
-- Automatically logs into the Popmart website with provided user credentials.
-- Continuously monitors specified products for availability.
-- Automatically selects purchase options (Whole Set, Single Box, etc.) and quantity.
-- Adds products to the cart and proceeds to checkout.
-- Handles multiple products simultaneously using multithreading.
-- Displays a success message in the GUI when a product is successfully purchased.
+- Supports both restock and prelaunch modes.
+- Allows users to specify multiple products and their purchase options.
+- Automatically fills in user details for checkout.
+- Supports various US time zones for prelaunch scheduling.
 
-## User Guide
+## Requirements
 
-### Prerequisites
+- Python 3.9+
+- Google Chrome browser
+- Chromedriver (compatible with your version of Chrome)
 
-- Python 3.9 or higher
-- Selenium WebDriver
-- Google Chrome and ChromeDriver
+## Installation
 
-### Installation
+1. **Clone the repository:**
 
-1. **Clone the Repository:**
-
-   ```sh
+   ```bash
    git clone https://github.com/TaiNg365/popmart.git
-   cd popmart-auto-checkout
-   ```
+   cd popmart
 
-2. **Install the Required Packages:**
+2. **Create and activate a virtual environment:**
 
-   ```sh
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+
+3. **Install the dependencies:**
+   
+   ```bash
    pip install -r requirements.txt
-   ```
 
-3. **Download ChromeDriver:**
+4. **Download Chromedriver:**
 
-   Download the ChromeDriver from [here](https://sites.google.com/a/chromium.org/chromedriver/downloads) and place it in the project directory.
+   Download the appropriate version of Chromedriver from the official site and place it in the root directory of the project.
 
-### Usage
+## Usage
 
-1. **Run the Application:**
+### Running the GUI
 
-   ```sh
+1. **Run the GUI application:**
+
+   ```bash
    python gui.py
-   ```
 
-2. **Fill in the User Information:**
+2. **Using the GUI:**
 
-   - Card Number
-   - Expiry Date (MM/YY)
-   - Security Code
-   - Card Holder Name
-   - Email
-   - Password
+   - Product URL: Enter the URL of the product page on the Popmart website.
+   - Buying Option: Select the desired buying option (Single box, Whole set, Both or None).
+   - Quantity: Enter the quantity you want to purchase.
+   - Mode: Choose between "Restock" and "Prelaunch".
+   - Prelaunch Settings (only visible in Prelaunch mode):
+      - Time Zone: Select your time zone.
+      - Day, Month, Year, Hour, Minute: Set the launch time for the product.
+   - User Details: Enter your card details, email, and password
 
-3. **Specify the Product List:**
+3.  **Control Buttons:**
 
-   Enter the products in the format: `product_id:option:quantity`. For example:
-   ```
-   1312:Both:1, 1267:Single box:2, 908:None:3
-   ```
+   - Start Bot: Starts the bot to monitor and purchase the products.
+   - Stop Bot: Stops the bot.
+   - Add More Products: Adds additional rows for more products.
+   - Remove Last Product: Removes the last product row.
 
-   - `product_id` is the ID of the product on the Popmart website.
-   - `option` can be `Whole Set`, `Single Box`, or `None` for products without specific purchase options.
-   - `quantity` is the number of items to purchase.
+## Building Executable
 
-4. **Start the Bot:**
+You can use GitHub Actions to build executables for Windows, macOS, and Linux.
 
-   Click the `Start Bot` button. The bot will begin monitoring the specified products and attempt to purchase them as soon as they become available.
+1. **Ensure the chromedriver is included in the pyinstaller specification file.**
+2. **Run GitHub Actions:**
 
-5. **Stop the Bot:**
+   Make sure your .github/workflows/build.yml file is set up correctly to build executables for all platforms.
 
-   Click the `Stop Bot` button to stop all running threads and clear the input fields.
+3. **After a successful build, download the artifacts from GitHub Actions.**
 
-### Building an Executable
+## Manually Building Executables
 
-To share the application with others without requiring them to install Python and dependencies:
+To manually build the executables, follow these steps:
 
-1. **Install PyInstaller:**
+1. **Ensure you have pyinstaller installed:**
 
-   ```sh
+   ```bash
    pip install pyinstaller
-   ```
 
-2. **Create an Executable:**
+2. **Build the executables:**
 
-   ```sh
-   pyinstaller --onefile --windowed --icon=labuicon.ico gui.py
-   ```
+   ```bash
+   pyinstaller gui.spec
 
-   The executable will be created in the `dist` directory.
+3. **Make the executable runnable (macOS/Linux):**
 
-### Cross-Platform Considerations
+   ```bash
+   chmod +x dist/gui/gui
 
-Currently, this project is designed to run on Windows. To run on macOS or Linux, you will need to adjust the ChromeDriver path accordingly in `main.py`.
+
+## Troubleshooting
+
+- Chromedriver issues: Ensure that the chromedriver version matches your installed Chrome version.
+- GUI issues on macOS: If the GUI does not respond properly, ensure you have the correct permissions and that tkinter is properly installed.
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
----
-
-Feel free to contribute to this project by submitting issues or pull requests. For major changes, please open an issue first to discuss what you would like to change.
-
-Enjoy automated shopping with the Popmart Auto Checkout Bot!
-```
+This project is licensed under the MIT License. See the LICENSE file for details.
